@@ -32,7 +32,7 @@ This will create the builder executable that you can use just like the pre-built
 
 ## 📚 Additional Resources
 
-- **More informatiom**: Check out [our project page](https://github.com/PyExecGo-Project).
+- **More information**: Check out [our project page](https://github.com/PyExecGo-Project).
 - **Template Repository**: Check out our [template repository](https://github.com/PyExecGo-Project/Template-Windows) to see how PyExecGo works!
 - **Pre-built Scripts/Programs**: Stay tuned for our available repositories with pre-built scripts/programs, coming soon! Visit [PyExecGo Project Repositories](https://github.com/orgs/PyExecGo-Project/repositories) for updates.
 
