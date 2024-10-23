@@ -54,18 +54,18 @@ func main() {
 
 	removeDir("portable-python-bin")
 
-	psScriptURL := "https://raw.githubusercontent.com/PyExecGo-Project/pyportable/refs/heads/main/portablepy.ps1"
-	if err := downloadFile("portablepy.ps1", psScriptURL); err != nil {
-		fmt.Println("Error downloading PowerShell script:", err)
-		return
-	}
-
 	if err := os.MkdirAll("portable-python-bin", os.ModePerm); err != nil {
 		fmt.Println("Error creating directory:", err)
 		return
 	}
 	if err := os.Chdir("portable-python-bin"); err != nil {
 		fmt.Println("Error changing directory:", err)
+		return
+	}
+
+	psScriptURL := "https://raw.githubusercontent.com/PyExecGo-Project/pyportable/refs/heads/main/portablepy.ps1"
+	if err := downloadFile("portablepy.ps1", psScriptURL); err != nil {
+		fmt.Println("Error downloading PowerShell script:", err)
 		return
 	}
 
