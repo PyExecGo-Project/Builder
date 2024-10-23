@@ -23,7 +23,7 @@ func main() {
 			__/ |                                  
 		   |___/                                   
 	`)
-	fmt.Println("© 2024 PyExecGo Contributors - Builder Version: v1.1.0")
+	fmt.Println("© 2024 PyExecGo Contributors - Builder Version: v1.1.1")
 	fmt.Println("PyExecGo is released under the MIT License")
 	fmt.Println()
 	fmt.Println("The 'template' folder and 'template.zip' file will be deleted if they exist.")
