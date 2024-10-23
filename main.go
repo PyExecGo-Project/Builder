@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	fmt.Println(`  
+	fmt.Println(`
 	_____       ______                _____       
 	|  __ \     |  ____|              / ____|      
 	| |__) |   _| |__  __  _____  ___| |  __  ___  
@@ -23,7 +23,7 @@ func main() {
 			__/ |                                  
 		   |___/                                   
 	`)
-	fmt.Println("© 2024 PyExecGo Contributors - Builder Version: v1.0")
+	fmt.Println("© 2024 PyExecGo Contributors - Builder Version: v1.1.0")
 	fmt.Println("PyExecGo is released under the MIT License")
 	fmt.Println()
 	fmt.Println("The 'template' folder and 'template.zip' file will be deleted if they exist.")
@@ -48,6 +48,43 @@ func main() {
 	}
 
 	if err := os.Chdir("template/Template-Windows-main"); err != nil {
+		fmt.Println("Error changing directory:", err)
+		return
+	}
+
+	removeDir("portable-python-bin")
+
+	psScriptURL := "https://raw.githubusercontent.com/PyExecGo-Project/pyportable/refs/heads/main/portablepy.ps1"
+	if err := downloadFile("portablepy.ps1", psScriptURL); err != nil {
+		fmt.Println("Error downloading PowerShell script:", err)
+		return
+	}
+
+	if err := os.MkdirAll("portable-python-bin", os.ModePerm); err != nil {
+		fmt.Println("Error creating directory:", err)
+		return
+	}
+	if err := os.Chdir("portable-python-bin"); err != nil {
+		fmt.Println("Error changing directory:", err)
+		return
+	}
+
+	if err := exec.Command("powershell", "Set-ExecutionPolicy", "-ExecutionPolicy", "Unrestricted", "-Scope", "CurrentUser").Run(); err != nil {
+		fmt.Println("Error setting execution policy:", err)
+		return
+	}
+
+	if err := exec.Command("powershell", "-ExecutionPolicy", "Bypass", "-File", "portablepy.ps1").Run(); err != nil {
+		fmt.Println("Error running portable-python-bin script:", err)
+		return
+	}
+
+	if err := exec.Command("powershell", "Set-ExecutionPolicy", "-ExecutionPolicy", "Restricted", "-Scope", "CurrentUser").Run(); err != nil {
+		fmt.Println("Error resetting execution policy:", err)
+		return
+	}
+
+	if err := os.Chdir(".."); err != nil {
 		fmt.Println("Error changing directory:", err)
 		return
 	}
@@ -129,7 +166,7 @@ func updateMainGoWithProjectInfo(projectName, pythonFile string) error {
 	lines := strings.Split(string(mainGoContent), "\n")
 	for i, line := range lines {
 		if strings.Contains(line, "This executable was built for the project:") {
-			lines[i] = fmt.Sprintf(`	fmt.Println("This executable was built for the project: %s")`, projectName)
+			lines[i] = fmt.Sprintf("This executable was built for the project: %s", projectName)
 		}
 		if strings.Contains(line, "main.py") {
 			lines[i] = strings.ReplaceAll(line, "main.py", pythonFile)
